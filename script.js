@@ -79,7 +79,6 @@ class App {
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
-    // removeList.addEventListener('click', this._removeFromList.bind(this));
   }
 
   _getPosition() {
@@ -258,28 +257,7 @@ class App {
 
     form.insertAdjacentHTML('afterend', html);
   }
-  _removeElement(el) {
-    const elID = el.target.parentElement.parentElement.getAttribute('data-id');
-    let finalWorkouts = [];
-    const workouts = this._getLocalStorage().#workouts;
-    el.target.parentElement.parentElement.id = elID;
-    workouts.forEach((workout, index) => {
-      console.log(workout, index);
-      if (workout.id === elID) {
-        // finalWorkouts.push(workout);
-        console.log(workout.type);
-        workouts.splice(index, 1);
-      }
-    });
-    // console.log(workouts);
-    // workouts.forEach((el) => containerWorkouts.removeChild(el));
-    // form.insertAdjacentHTML('afterend');
-    // let childToRemove = document.getElementById(elID);
-    // containerWorkouts.removeChild(childToRemove);
-    localStorage.setItem('workouts', JSON.stringify(workouts));
-    // workouts.forEach(workout => this._renderWorkout(workout));
-    removeFromUI(elID);
-  }
+
   _moveToPopup(e) {
     const workoutEl = e.target.closest('.workout');
 
@@ -299,6 +277,22 @@ class App {
       this._removeElement(e);
     }
 
+  }
+  _removeElement(el) {
+    const elID = el.target.parentElement.parentElement.getAttribute('data-id');
+    console.log(elID);
+    let finalWorkouts = [];
+    const workouts = this._getLocalStorage().#workouts;
+    el.target.parentElement.parentElement.id = elID;
+    workouts.forEach((workout, index) => {
+      console.log(workout, index);
+      if (workout.id === elID) {
+        console.log(workout.type);
+        workouts.splice(index, 1);
+      }
+    });
+    location.reload();
+    localStorage.setItem('workouts', JSON.stringify(workouts));
   }
 
   _setLocalStorage() {
@@ -322,12 +316,3 @@ class App {
 }
 
 const app = new App();
-// app._getPosition();
-
-// if(navigator.geolocation)
-
-// function removeFromUI(elID){
-//   let removalEl = document.getElementById(elID);
-//   console.log(removalEl);
-//   containerWorkouts.removeChild(removalEl);
-// }
